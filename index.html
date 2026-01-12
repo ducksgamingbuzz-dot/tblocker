@@ -1,168 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TBlocker</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TBlocker</title>
 
-  <style>
-    :root {
-      --purple: #7b2cff;
-      --dark: #0b0b0f;
-      --darker: #050507;
-      --text: #e6e6eb;
-      --glow: rgba(123,44,255,0.6);
-    }
+<style>
+:root {
+  --purple: #7b2cff;
+  --dark: #0b0b0f;
+  --darker: #050507;
+  --text: #e6e6eb;
+  --glow: rgba(123,44,255,0.6);
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", system-ui, sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
 
-    body {
-      background: radial-gradient(circle at top, #12001f, var(--dark));
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+body {
+  background: radial-gradient(circle at top, #12001f, var(--dark));
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    /* ===== HEADER ===== */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 40px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      backdrop-filter: blur(8px);
-    }
+/* ===== HEADER ===== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px);
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-    .logo img {
-      width: 52px;
-      height: 52px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 12px var(--glow));
-    }
+.logo img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px var(--glow));
+}
 
-    .logo span {
-      font-size: 1.3rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: var(--purple);
-      text-shadow: 0 0 10px var(--glow);
-    }
+.logo span {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--purple);
+  text-shadow: 0 0 10px var(--glow);
+}
 
-    nav a {
-      color: #aaa;
-      margin-left: 25px;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.3s;
-    }
+nav a {
+  color: #aaa;
+  margin-left: 25px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+  cursor:pointer;
+}
+nav a.active, nav a:hover {
+  color: var(--purple);
+}
 
-    nav a:hover {
-      color: var(--purple);
-    }
+/* ===== HERO ===== */
+.hero {
+  padding: 120px 40px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #a855ff, #5f2cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(123,44,255,0.4);
+}
+.hero p {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #bdbdd3;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.quote {
+  margin-top: 40px;
+  font-style: italic;
+  color: #9f9fc7;
+  opacity: 0.85;
+}
 
-    /* ===== HERO ===== */
-    .hero {
-      padding: 120px 40px;
-      text-align: center;
-    }
+/* ===== PANELS ===== */
+.panel {
+  max-width: 900px;
+  margin: 40px auto;
+  background: linear-gradient(180deg, var(--darker), #0e0e15);
+  border: 1px solid rgba(123,44,255,0.2);
+  border-radius: 18px;
+  padding: 40px;
+  box-shadow:
+    0 0 30px rgba(123,44,255,0.15),
+    inset 0 0 20px rgba(123,44,255,0.05);
+}
 
-    .hero h1 {
-      font-size: 3.2rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #a855ff, #5f2cff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px rgba(123,44,255,0.4);
-    }
+.panel h2 {
+  color: var(--purple);
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.panel p {
+  color: #cfcfe6;
+  line-height: 1.7;
+}
 
-    .hero p {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      color: #bdbdd3;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+/* TERMINAL */
+.terminal {
+  height: 220px;
+  background:#050508;
+  border:1px solid #222;
+  border-radius:12px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+}
+.term-out {flex:1; overflow:auto;}
+.term-in input{
+  width:100%;
+  padding:8px;
+  background:#000;
+  border:1px solid #222;
+  color:var(--text);
+}
 
-    .quote {
-      margin-top: 40px;
-      font-style: italic;
-      color: #9f9fc7;
-      opacity: 0.85;
-    }
+/* NAV PANEL DISPLAY */
+.tab-content {display:none;}
+.tab-content.active {display:block;}
 
-    /* ===== PANEL ===== */
-    .panel {
-      max-width: 900px;
-      margin: -40px auto 80px;
-      background: linear-gradient(180deg, var(--darker), #0e0e15);
-      border: 1px solid rgba(123,44,255,0.2);
-      border-radius: 18px;
-      padding: 40px;
-      box-shadow:
-        0 0 30px rgba(123,44,255,0.15),
-        inset 0 0 20px rgba(123,44,255,0.05);
-    }
+.actions button{
+  margin:6px 6px 0 0;
+  padding:10px 14px;
+  background:#12001f;
+  border:1px solid var(--purple);
+  color:var(--text);
+  cursor:pointer;
+}
+.actions button:hover{background:var(--purple);}
 
-    .panel h2 {
-      color: var(--purple);
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
+.logout{margin-top:18px;color:#888;cursor:pointer;}
 
-    .panel p {
-      color: #cfcfe6;
-      line-height: 1.7;
-    }
+footer{
+  text-align:center;
+  padding:30px;
+  color:#777;
+  font-size:0.85rem;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
 
-    /* ===== FOOTER ===== */
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-      font-size: 0.85rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-  </style>
+@media(max-width:900px){.panel{margin:20px 20px;}}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">
-      <!-- 🔥 CHANGE THIS IMAGE TO YOUR LOGO -->
-      <img src="logo.png" alt="TBlocker Logo">
-      <span>TBlocker</span>
-    </div>
+<header>
+  <div class="logo">
+    <img src="https://i.imgur.com/rILbjbm.jpeg" alt="TBlocker Logo">
+    <span>TBlocker</span>
+  </div>
+  <nav>
+    <a class="tab-link active" data-tab="home">Home</a>
+    <a class="tab-link" data-tab="system">System</a>
+    <a class="tab-link" data-tab="contact">Contact</a>
+  </nav>
+</header>
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">System</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
-
+<!-- ===== TABS ===== -->
+<section id="home" class="tab-content active">
   <section class="hero">
     <h1>TBlocker</h1>
-    <p>
-      Private. Silent. Controlled.  
-      A space where presence matters more than noise.
-    </p>
-
-    <div class="quote">
-      “Not everything hidden is illegal. Some things are just protected.”
-    </div>
+    <p>Private. Silent. Controlled. A space where presence matters more than noise.</p>
+    <div class="quote">“Not everything hidden is illegal. Some things are just protected.”</div>
   </section>
 
   <div class="panel">
@@ -175,10 +201,108 @@
       This interface exists by design — not accident.
     </p>
   </div>
+</section>
 
-  <footer>
-    © 2026 TBlocker — access limited
-  </footer>
+<section id="system" class="tab-content">
+  <div class="panel">
+    <h2>System Dashboard</h2>
+    <p>Firewall: <b>ACTIVE</b></p>
+    <p>Encryption: <b>256-bit AES</b></p>
+    <p>Connections: <b>7 Secured Nodes</b></p>
 
+    <h2 style="margin-top:20px;">Terminal</h2>
+    <div class="terminal">
+      <div class="term-out" id="termOut"></div>
+      <div class="term-in">
+        <input id="termIn" placeholder="type help and press Enter">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="addLog('Scan complete — no threats')">Run Scan</button>
+      <button onclick="addLog('Connection secured')">Secure Link</button>
+      <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <div class="logs" id="logs" style="margin-top:16px;"></div>
+
+    <div class="logout" onclick="logout()">logout</div>
+  </div>
+</section>
+
+<section id="contact" class="tab-content">
+  <div class="panel">
+    <h2>Contact</h2>
+    <p>This area is restricted for internal use only. Contact functionality coming soon.</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 TBlocker — access limited
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+
+  // TAB NAVIGATION
+  const tabs = document.querySelectorAll(".tab-link");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab=>{
+    tab.addEventListener("click",()=>{
+      tabs.forEach(t=>t.classList.remove("active"));
+      tab.classList.add("active");
+      const target = tab.dataset.tab;
+      contents.forEach(c=>{
+        c.classList.remove("active");
+        if(c.id === target) c.classList.add("active");
+      });
+    });
+  });
+
+  // TERMINAL
+  const termOut = document.getElementById("termOut");
+  const termIn = document.getElementById("termIn");
+  const logs = document.getElementById("logs");
+
+  window.addLog = (text)=>{
+    const div = document.createElement("div");
+    div.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+    logs.appendChild(div);
+    logs.scrollTop = logs.scrollHeight;
+  }
+
+  window.clearLogs = ()=>{
+    logs.innerHTML="";
+  }
+
+  const commands = {
+    help:"help, status, whoami, ping, clear",
+    status:"system stable | no threats",
+    whoami:()=>"Admin",
+    ping:"pong",
+    clear:()=>{termOut.innerHTML="";return"";}
+  };
+
+  termIn.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      const c = termIn.value.trim();
+      termOut.innerHTML+=`<div>> ${c}</div>`;
+      const r = commands[c];
+      if(typeof r==="function"){ const out = r(); if(out) termOut.innerHTML+=`<div>${out}</div>`;}
+      else if(r) termOut.innerHTML+=`<div>${r}</div>`;
+      else termOut.innerHTML+=`<div>unknown command</div>`;
+      termIn.value="";
+      termOut.scrollTop = termOut.scrollHeight;
+    }
+  });
+
+  window.logout = ()=>{
+    alert("Logged out! Refreshing page...");
+    location.reload();
+  };
+
+});
+</script>
 </body>
 </html>
