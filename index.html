@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TBlocker Dark Landing</title>
+<title>TBlocker</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,121 +11,131 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  * { font-family: 'Inter', system-ui, sans-serif; }
-  body { background:#050507; color:#e6e6eb; }
-  .animate-float { animation: float 6s ease-in-out infinite; }
-  @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-  /* Overlay scanlines for hacker vibes */
-  .scanlines::before {
-    content:"";position:fixed;inset:0;
-    background:repeating-linear-gradient(to bottom,rgba(255,255,255,.02),rgba(255,255,255,.02) 1px,transparent 1px,transparent 3px);
-    pointer-events:none;
-  }
-  .glow-text { background:linear-gradient(90deg,#a855ff,#5f2cff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 20px rgba(123,44,255,.6); }
-  .panel { background:linear-gradient(180deg,#0b0b12,#0f0f1b); border:1px solid rgba(123,44,255,.25); border-radius:18px; padding:26px; box-shadow:0 0 35px rgba(123,44,255,.15), inset 0 0 20px rgba(123,44,255,.05);}
+* { font-family: 'Inter', system-ui, sans-serif; }
+body { background:#050507; color:#e6e6eb; }
+
+@keyframes float {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+
+.scanlines::before{
+  content:"";position:fixed;inset:0;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.02),
+    rgba(255,255,255,.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events:none;
+}
+
+.glow-text{
+  background:linear-gradient(90deg,#a855ff,#5f2cff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 25px rgba(123,44,255,.6);
+}
+
+.panel{
+  background:linear-gradient(180deg,#0b0b12,#0f0f1b);
+  border:1px solid rgba(123,44,255,.25);
+  border-radius:18px;
+  padding:28px;
+  box-shadow:
+    0 0 40px rgba(123,44,255,.15),
+    inset 0 0 20px rgba(123,44,255,.05);
+}
 </style>
 </head>
 
 <body class="scanlines min-h-screen antialiased">
 
-<!-- Navigation -->
+<!-- NAV (HOME ONLY) -->
 <nav class="fixed top-0 w-full z-50 bg-[#0b0b12]/80 backdrop-blur-xl border-b border-[#222]/50">
   <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
     <span class="text-xl font-bold glow-text">TBlocker</span>
-    <div class="flex items-center gap-6">
-      <button onclick="show('home')" class="hover:text-purple-400 transition">Home</button>
-      <button onclick="show('browser')" class="hover:text-purple-400 transition">Private Browser</button>
-      <button onclick="show('market')" class="hover:text-purple-400 transition">Marketplace</button>
-      <button onclick="show('about')" class="hover:text-purple-400 transition">About</button>
-    </div>
+    <span class="text-purple-400 text-sm">HOME</span>
   </div>
 </nav>
 
-<!-- HOME HERO -->
-<section id="home" class="pt-32 pb-20 px-6 section active">
+<!-- HOME -->
+<section class="pt-32 pb-20 px-6">
   <div class="max-w-6xl mx-auto text-center">
-    <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 glow-text">
-      TBlocker<br>
-      <span class="text-purple-400">Dark Web Style Interface</span>
+    <h1 class="text-5xl md:text-7xl font-bold mb-6 glow-text">
+      TBlocker
     </h1>
-    <p class="text-xl text-[#aaa] max-w-2xl mx-auto mb-10 leading-relaxed">
-      Private. Secure. Isolated. Your controlled environment for experiments, sandbox browsing, and testing.
+    <p class="text-xl text-[#aaa] max-w-2xl mx-auto mb-10">
+      Private sandbox interface. Dark themed. Isolated browsing environment.
     </p>
+
+    <button
+      onclick="deployBrowser()"
+      class="px-8 py-4 bg-purple-600 rounded-xl font-semibold hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
+      Launch Private Browser
+    </button>
   </div>
 </section>
 
-<!-- PRIVATE BROWSER -->
-<section id="browser" class="px-6 section">
-  <div class="panel mb-6">
-    <h2 class="text-purple-400 mb-4">Private Browser Module</h2>
-    <p>Sandboxed iframe for isolated testing. Sessions reset on close. Nothing leaves your environment.</p>
-    <button class="mt-4 px-6 py-2 bg-purple-600 rounded hover:bg-purple-500 transition" onclick="deployBrowser()">Launch Browser</button>
-  </div>
-</section>
+<!-- DRAGGABLE PRIVATE BROWSER -->
+<div id="privateBrowser"
+class="fixed hidden top-20 left-20 w-[90%] md:w-[900px] h-[520px]
+bg-[#0b0b12] border border-purple-600 rounded-lg shadow-2xl z-[999] flex flex-col">
 
-<div id="privateBrowser" class="fixed hidden top-12 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[900px] h-[500px] bg-[#0b0b12] border border-purple-600 rounded-lg shadow-2xl z-[999] flex flex-col">
-  <div class="flex justify-between items-center p-2 bg-[#08080c] text-purple-400 border-b border-purple-500/20">
-    <span>PRIVATE BROWSER — SANDBOX</span>
-    <button onclick="closeBrowser()" class="text-purple-300 hover:text-purple-500">✖</button>
+  <!-- DRAG BAR -->
+  <div id="dragBar"
+    class="cursor-move flex justify-between items-center px-4 py-2
+    bg-[#08080c] text-purple-400 border-b border-purple-500/20 select-none">
+    <span>PRIVATE BROWSER — SANDBOXED</span>
+    <button onclick="closeBrowser()" class="hover:text-purple-500">✖</button>
   </div>
-  <iframe id="pbFrame" src="about:blank" sandbox="allow-scripts allow-forms allow-same-origin" class="flex-1 w-full"></iframe>
+
+  <iframe
+    id="pbFrame"
+    sandbox="allow-scripts allow-forms allow-same-origin"
+    class="flex-1 w-full bg-black">
+  </iframe>
 </div>
 
-<!-- MARKETPLACE -->
-<section id="market" class="px-6 section">
-  <h2 class="text-3xl text-purple-400 mb-6">Encrypted Marketplace</h2>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="panel">
-      <h3 class="text-xl text-purple-300">Shadow VPN Node</h3>
-      <span class="text-[#888]">Rotating exit / no logs</span>
-      <p class="mt-2 text-green-400">0.014 BTC</p>
-    </div>
-    <div class="panel">
-      <h3 class="text-xl text-purple-300">Encrypted Drop Box</h3>
-      <span class="text-[#888]">Self-destruct storage</span>
-      <p class="mt-2 text-green-400">0.006 BTC</p>
-    </div>
-    <div class="panel">
-      <h3 class="text-xl text-purple-300">Identity Scrambler</h3>
-      <span class="text-[#888]">Metadata distortion layer</span>
-      <p class="mt-2 text-green-400">0.021 BTC</p>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="px-6 section">
-  <div class="panel">
-    <h2 class="text-purple-400 mb-4">About TBlocker</h2>
-    <p>
-      TBlocker is a fictional dark web interface created for experiments, private sandbox browsing, and hacker aesthetic exploration.
-    </p>
-    <p class="mt-4 text-[#888]">
-      Instagram: <a href="https://www.instagram.com/user3463974126/" target="_blank" class="text-purple-400 hover:text-purple-300">user3463974126</a>
-    </p>
-  </div>
-</section>
-
 <footer class="py-12 px-6 border-t border-[#222]/50 text-center text-[#777]">
-  © 2026 TBlocker — simulated environment
+  © 2026 TBlocker — simulated interface
 </footer>
 
 <script>
-  // Navigation sections
-  function show(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
+/* OPEN / CLOSE */
+function deployBrowser(){
+  document.getElementById('pbFrame').src =
+    'https://math.sg-rasselbandi.ch/';
+  document.getElementById('privateBrowser').classList.remove('hidden');
+}
 
-  // Browser sandbox
-  function deployBrowser(){
-    document.getElementById('pbFrame').src='https://math.sg-rasselbandi.ch/';
-    document.getElementById('privateBrowser').classList.remove('hidden');
-  }
-  function closeBrowser(){
-    document.getElementById('pbFrame').src='about:blank';
-    document.getElementById('privateBrowser').classList.add('hidden');
-  }
+function closeBrowser(){
+  document.getElementById('pbFrame').src = 'about:blank';
+  document.getElementById('privateBrowser').classList.add('hidden');
+}
+
+/* DRAGGING */
+const browser = document.getElementById('privateBrowser');
+const dragBar = document.getElementById('dragBar');
+
+let offsetX = 0, offsetY = 0, dragging = false;
+
+dragBar.addEventListener('mousedown', (e)=>{
+  dragging = true;
+  offsetX = e.clientX - browser.offsetLeft;
+  offsetY = e.clientY - browser.offsetTop;
+});
+
+document.addEventListener('mousemove', (e)=>{
+  if(!dragging) return;
+  browser.style.left = (e.clientX - offsetX) + 'px';
+  browser.style.top  = (e.clientY - offsetY) + 'px';
+});
+
+document.addEventListener('mouseup', ()=>{
+  dragging = false;
+});
 </script>
 
 </body>
