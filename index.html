@@ -11,83 +11,119 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-* { font-family: 'Inter', system-ui, sans-serif; }
-body { background:#050507; color:#e6e6eb; }
+*{font-family:'Inter',system-ui,sans-serif}
+body{background:#050507;color:#e6e6eb;overflow-x:hidden}
 
-@keyframes float {
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-10px);}
+/* ===== BACKGROUND EFFECTS ===== */
+.grid-bg{
+  position:fixed;inset:0;z-index:-2;
+  background:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.glow-orb{
+  position:fixed;border-radius:999px;filter:blur(120px);opacity:.25;z-index:-3
+}
+.orb1{width:400px;height:400px;background:#7b2cff;top:-100px;left:20%}
+.orb2{width:400px;height:400px;background:#b44cff;bottom:-100px;right:20%}
+
+/* ===== GLITCH TITLE ===== */
+.glitch{
+  position:relative;
+  font-size:clamp(3.5rem,8vw,6rem);
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:#a855ff;
+  text-shadow:0 0 25px rgba(168,85,255,.6);
+}
+.glitch::before,.glitch::after{
+  content:attr(data-text);
+  position:absolute;left:0;top:0;width:100%;overflow:hidden
+}
+.glitch::before{
+  left:2px;text-shadow:-2px 0 #ff00ff;
+  clip-path:polygon(0 0,100% 0,100% 45%,0 45%);
+  animation:glitch1 2s infinite linear alternate-reverse
+}
+.glitch::after{
+  left:-2px;text-shadow:-2px 0 #7b2cff;
+  clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);
+  animation:glitch2 1.8s infinite linear alternate-reverse
+}
+@keyframes glitch1{0%{transform:translate(0)}100%{transform:translate(-2px,-1px)}}
+@keyframes glitch2{0%{transform:translate(0)}100%{transform:translate(2px,1px)}}
+
+/* ===== CODE RAIN ===== */
+.code-rain{
+  position:fixed;inset:0;pointer-events:none;z-index:-1;color:#a855ff;
+  font-family:monospace;font-size:14px;opacity:.35
+}
+.code{
+  position:absolute;white-space:nowrap;animation:fall linear infinite
+}
+@keyframes fall{
+  from{transform:translateY(-100px)}
+  to{transform:translateY(110vh)}
 }
 
-.scanlines::before{
-  content:"";position:fixed;inset:0;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,.02),
-    rgba(255,255,255,.02) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  pointer-events:none;
-}
-
-.glow-text{
-  background:linear-gradient(90deg,#a855ff,#5f2cff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 25px rgba(123,44,255,.6);
-}
-
+/* ===== PANELS ===== */
 .panel{
   background:linear-gradient(180deg,#0b0b12,#0f0f1b);
-  border:1px solid rgba(123,44,255,.25);
-  border-radius:18px;
-  padding:28px;
-  box-shadow:
-    0 0 40px rgba(123,44,255,.15),
-    inset 0 0 20px rgba(123,44,255,.05);
+  border:1px solid rgba(123,44,255,.3);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 0 40px rgba(123,44,255,.18)
+}
+
+/* ===== PRIVATE WINDOW ===== */
+#privateBrowser{
+  resize:both;
+  overflow:hidden;
+}
+.dragbar{
+  cursor:move;
+  background:#08080c;
+  border-bottom:1px solid rgba(168,85,255,.3)
 }
 </style>
 </head>
 
-<body class="scanlines min-h-screen antialiased">
+<body>
 
-<!-- NAV (HOME ONLY) -->
-<nav class="fixed top-0 w-full z-50 bg-[#0b0b12]/80 backdrop-blur-xl border-b border-[#222]/50">
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <span class="text-xl font-bold glow-text">TBlocker</span>
-    <span class="text-purple-400 text-sm">HOME</span>
-  </div>
-</nav>
+<div class="grid-bg"></div>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
 
-<!-- HOME -->
-<section class="pt-32 pb-20 px-6">
-  <div class="max-w-6xl mx-auto text-center">
-    <h1 class="text-5xl md:text-7xl font-bold mb-6 glow-text">
-      TBlocker
-    </h1>
-    <p class="text-xl text-[#aaa] max-w-2xl mx-auto mb-10">
-      Private sandbox interface. Dark themed. Isolated browsing environment.
-    </p>
+<!-- CODE RAIN -->
+<div class="code-rain" id="codeRain"></div>
 
-    <button
-      onclick="deployBrowser()"
-      class="px-8 py-4 bg-purple-600 rounded-xl font-semibold hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
-      Launch Private Browser
-    </button>
+<!-- HERO -->
+<section class="min-h-screen flex flex-col justify-center items-center px-6 text-center">
+  <h1 class="glitch mb-6" data-text="TBlocker">TBlocker</h1>
+  <p class="text-[#bdbdd3] max-w-xl mb-10">
+    Isolated interface · sandboxed environment · controlled presence
+  </p>
+
+  <button onclick="deployBrowser()"
+    class="px-8 py-4 bg-purple-600 rounded-xl font-semibold
+    hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
+    Deploy Private Window
+  </button>
+
+  <div class="mt-16 text-sm text-purple-400 opacity-80">
+    zephalon_EXT
   </div>
 </section>
 
-<!-- DRAGGABLE PRIVATE BROWSER -->
+<!-- PRIVATE BROWSER WINDOW -->
 <div id="privateBrowser"
-class="fixed hidden top-20 left-20 w-[90%] md:w-[900px] h-[520px]
-bg-[#0b0b12] border border-purple-600 rounded-lg shadow-2xl z-[999] flex flex-col">
+class="fixed hidden top-24 left-24 w-[900px] h-[520px]
+bg-[#0b0b12] border border-purple-600 rounded-xl shadow-2xl z-[999] flex flex-col">
 
-  <!-- DRAG BAR -->
-  <div id="dragBar"
-    class="cursor-move flex justify-between items-center px-4 py-2
-    bg-[#08080c] text-purple-400 border-b border-purple-500/20 select-none">
-    <span>PRIVATE BROWSER — SANDBOXED</span>
+  <div id="dragBar" class="dragbar flex justify-between items-center px-4 py-2 text-purple-400 select-none">
+    <span>PRIVATE SANDBOX</span>
     <button onclick="closeBrowser()" class="hover:text-purple-500">✖</button>
   </div>
 
@@ -98,44 +134,58 @@ bg-[#0b0b12] border border-purple-600 rounded-lg shadow-2xl z-[999] flex flex-co
   </iframe>
 </div>
 
-<footer class="py-12 px-6 border-t border-[#222]/50 text-center text-[#777]">
-  © 2026 TBlocker — simulated interface
+<!-- FOOTER -->
+<footer class="py-10 text-center text-[#777] text-sm">
+  <p class="italic mb-2">“Privacy is not hiding. It’s choosing.”</p>
+  <p class="text-purple-400 mb-3">More coming soon…</p>
+  <a href="https://www.instagram.com/user3463974126/"
+     target="_blank"
+     class="text-purple-500 hover:text-purple-400 transition">
+    Instagram · zephalon_EXT
+  </a>
 </footer>
 
 <script>
-/* OPEN / CLOSE */
+/* ===== PRIVATE WINDOW ===== */
 function deployBrowser(){
-  document.getElementById('pbFrame').src =
-    'https://math.sg-rasselbandi.ch/';
+  document.getElementById('pbFrame').src='https://math.sg-rasselbandi.ch/';
   document.getElementById('privateBrowser').classList.remove('hidden');
 }
-
 function closeBrowser(){
-  document.getElementById('pbFrame').src = 'about:blank';
+  document.getElementById('pbFrame').src='about:blank';
   document.getElementById('privateBrowser').classList.add('hidden');
 }
 
 /* DRAGGING */
-const browser = document.getElementById('privateBrowser');
-const dragBar = document.getElementById('dragBar');
-
-let offsetX = 0, offsetY = 0, dragging = false;
-
-dragBar.addEventListener('mousedown', (e)=>{
-  dragging = true;
-  offsetX = e.clientX - browser.offsetLeft;
-  offsetY = e.clientY - browser.offsetTop;
+const browser=document.getElementById('privateBrowser');
+const dragBar=document.getElementById('dragBar');
+let drag=false,offX=0,offY=0;
+dragBar.addEventListener('mousedown',e=>{
+  drag=true;offX=e.clientX-browser.offsetLeft;offY=e.clientY-browser.offsetTop;
 });
-
-document.addEventListener('mousemove', (e)=>{
-  if(!dragging) return;
-  browser.style.left = (e.clientX - offsetX) + 'px';
-  browser.style.top  = (e.clientY - offsetY) + 'px';
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  browser.style.left=(e.clientX-offX)+'px';
+  browser.style.top=(e.clientY-offY)+'px';
 });
+document.addEventListener('mouseup',()=>drag=false);
 
-document.addEventListener('mouseup', ()=>{
-  dragging = false;
-});
+/* ===== CODE RAIN SPAWN ===== */
+const words=[
+  "zephalon_EXT","NODE","ENCRYPT","PAYLOAD","PROTOCOL",
+  "SANDBOX","OBFUSCATE","VECTOR","NULL","ACCESS_GRANTED",
+  "PURPLE","TBlocker","ISOLATED","NOISE","SHADOW"
+];
+const rain=document.getElementById('codeRain');
+for(let i=0;i<40;i++){
+  const s=document.createElement('div');
+  s.className='code';
+  s.textContent=words[Math.floor(Math.random()*words.length)];
+  s.style.left=Math.random()*100+'%';
+  s.style.animationDuration=(6+Math.random()*10)+'s';
+  s.style.animationDelay=Math.random()*-20+'s';
+  rain.appendChild(s);
+}
 </script>
 
 </body>
