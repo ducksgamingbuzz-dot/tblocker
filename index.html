@@ -1,171 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TBlocker</title>
 
 <style>
-:root {
-  --purple: #7b2cff;
-  --dark: #0b0b0f;
-  --darker: #050507;
-  --text: #e6e6eb;
-  --glow: rgba(123,44,255,0.6);
+:root{
+  --purple:#7b2cff;
+  --bg:#050507;
+  --panel:#0b0b12;
+  --text:#e6e6eb;
+  --glow:rgba(123,44,255,.6);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", system-ui, sans-serif;
-}
-
-body {
-  background: radial-gradient(circle at top, #12001f, var(--dark));
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ===== HEADER ===== */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  backdrop-filter: blur(8px);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo img {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 12px var(--glow));
-}
-
-.logo span {
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: var(--purple);
-  text-shadow: 0 0 10px var(--glow);
-}
-
-nav a {
-  color: #aaa;
-  margin-left: 25px;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: color 0.3s;
-  cursor:pointer;
-}
-nav a.active, nav a:hover {
-  color: var(--purple);
-}
-
-/* ===== HERO ===== */
-.hero {
-  padding: 120px 40px;
-  text-align: center;
-}
-.hero h1 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #a855ff, #5f2cff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(123,44,255,0.4);
-}
-.hero p {
-  margin-top: 20px;
-  font-size: 1.1rem;
-  color: #bdbdd3;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.quote {
-  margin-top: 40px;
-  font-style: italic;
-  color: #9f9fc7;
-  opacity: 0.85;
-}
-
-/* ===== PANELS ===== */
-.panel {
-  max-width: 900px;
-  margin: 40px auto;
-  background: linear-gradient(180deg, var(--darker), #0e0e15);
-  border: 1px solid rgba(123,44,255,0.2);
-  border-radius: 18px;
-  padding: 40px;
-  box-shadow:
-    0 0 30px rgba(123,44,255,0.15),
-    inset 0 0 20px rgba(123,44,255,0.05);
-}
-
-.panel h2 {
-  color: var(--purple);
-  margin-bottom: 15px;
-  letter-spacing: 1px;
-}
-.panel p {
-  color: #cfcfe6;
-  line-height: 1.7;
-}
-
-/* TERMINAL */
-.terminal {
-  height: 220px;
-  background:#050508;
-  border:1px solid #222;
-  border-radius:12px;
-  padding:10px;
-  display:flex;
-  flex-direction:column;
-}
-.term-out {flex:1; overflow:auto;}
-.term-in input{
-  width:100%;
-  padding:8px;
-  background:#000;
-  border:1px solid #222;
+*{box-sizing:border-box;font-family:Consolas,monospace}
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#12001f,var(--bg));
   color:var(--text);
 }
 
-/* NAV PANEL DISPLAY */
-.tab-content {display:none;}
-.tab-content.active {display:block;}
+/* ===== HEADER ===== */
+header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 32px;border-bottom:1px solid #222;
+}
+.logo{display:flex;align-items:center;gap:12px}
+.logo img{
+  width:48px;
+  filter:drop-shadow(0 0 12px var(--glow));
+}
+.logo span{
+  font-size:1.3rem;
+  color:var(--purple);
+  letter-spacing:1px;
+}
+nav button{
+  background:none;border:none;color:#aaa;
+  margin-left:20px;cursor:pointer;
+}
+nav button:hover{color:var(--purple)}
 
-.actions button{
-  margin:6px 6px 0 0;
-  padding:10px 14px;
+/* ===== SECTIONS ===== */
+.section{display:none;padding:40px}
+.section.active{display:block}
+
+/* ===== PANELS ===== */
+.panel{
+  background:linear-gradient(180deg,#07070c,#0d0d16);
+  border:1px solid rgba(123,44,255,.25);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 0 30px rgba(123,44,255,.15);
+  margin-bottom:24px;
+}
+.panel h2{color:var(--purple);margin-top:0}
+
+/* ===== TERMINAL ===== */
+.terminal{
+  background:#000;border:1px solid #222;
+  height:220px;padding:10px;border-radius:12px;
+  display:flex;flex-direction:column;
+}
+.term-out{flex:1;overflow:auto}
+.term-in input{
+  width:100%;background:#000;border:1px solid #222;
+  color:var(--text);padding:8px;
+}
+
+/* ===== SYSTEM BUTTON ===== */
+.deploy-btn{
+  padding:12px 18px;
   background:#12001f;
   border:1px solid var(--purple);
   color:var(--text);
   cursor:pointer;
 }
-.actions button:hover{background:var(--purple);}
+.deploy-btn:hover{background:var(--purple)}
 
-.logout{margin-top:18px;color:#888;cursor:pointer;}
-
-footer{
-  text-align:center;
-  padding:30px;
-  color:#777;
-  font-size:0.85rem;
-  border-top:1px solid rgba(255,255,255,0.05);
+/* ===== PRIVATE BROWSER ===== */
+.pb{
+  position:fixed;top:8%;left:50%;
+  transform:translateX(-50%);
+  width:900px;height:540px;
+  background:#050507;
+  border:1px solid rgba(123,44,255,.45);
+  border-radius:16px;
+  box-shadow:0 0 50px rgba(123,44,255,.3);
+  display:flex;flex-direction:column;
+  z-index:9999;
 }
-
-@media(max-width:900px){.panel{margin:20px 20px;}}
+.pb.hidden{display:none}
+.pb-header{
+  display:flex;justify-content:space-between;
+  padding:10px 14px;background:#0b0b12;
+  color:var(--purple);
+}
+.pb-header button{
+  background:none;border:none;color:#888;
+  font-size:18px;cursor:pointer;
+}
+.pb-toolbar{
+  display:flex;gap:8px;padding:8px;
+  background:#08080c;border-bottom:1px solid #222;
+}
+.pb-toolbar input{
+  flex:1;background:#000;border:1px solid #222;
+  color:var(--text);padding:6px;
+}
+.pb-toolbar button{
+  background:var(--purple);border:none;
+  padding:6px 14px;color:#fff;cursor:pointer;
+}
+.pb iframe{flex:1;border:none;background:#000}
+.pb-status{font-size:.75rem;color:#777;align-self:center}
 </style>
 </head>
 
@@ -173,136 +122,106 @@ footer{
 
 <header>
   <div class="logo">
-    <img src="https://i.imgur.com/rILbjbm.jpeg" alt="TBlocker Logo">
+    <img src="https://i.imgur.com/rILbjbm.jpeg">
     <span>TBlocker</span>
   </div>
   <nav>
-    <a class="tab-link active" data-tab="home">Home</a>
-    <a class="tab-link" data-tab="system">System</a>
-    <a class="tab-link" data-tab="contact">Contact</a>
+    <button onclick="show('home')">Home</button>
+    <button onclick="show('system')">System</button>
+    <button onclick="show('terminal')">Terminal</button>
   </nav>
 </header>
 
-<!-- ===== TABS ===== -->
-<section id="home" class="tab-content active">
-  <section class="hero">
-    <h1>TBlocker</h1>
-    <p>Private. Silent. Controlled. A space where presence matters more than noise.</p>
-    <div class="quote">“Not everything hidden is illegal. Some things are just protected.”</div>
-  </section>
-
+<!-- HOME -->
+<div id="home" class="section active">
   <div class="panel">
-    <h2>STATUS</h2>
-    <p>
-      Network integrity stable.  
-      Visual layer minimal.  
-      No trackers. No noise. No excess.
-      <br><br>
-      This interface exists by design — not accident.
+    <h2>Status</h2>
+    Network stable.<br>
+    Trackers blocked.<br>
+    Visibility minimal.<br><br>
+    <i>“Not everything hidden is illegal.”</i>
+  </div>
+</div>
+
+<!-- SYSTEM -->
+<div id="system" class="section">
+  <div class="panel">
+    <h2>System Control</h2>
+    <button class="deploy-btn" onclick="deployBrowser()">
+      Deploy Private Browser
+    </button>
+    <p style="margin-top:14px;color:#aaa">
+      Sandboxed • No storage • No referrer
     </p>
   </div>
-</section>
+</div>
 
-<section id="system" class="tab-content">
+<!-- TERMINAL -->
+<div id="terminal" class="section">
   <div class="panel">
-    <h2>System Dashboard</h2>
-    <p>Firewall: <b>ACTIVE</b></p>
-    <p>Encryption: <b>256-bit AES</b></p>
-    <p>Connections: <b>7 Secured Nodes</b></p>
-
-    <h2 style="margin-top:20px;">Terminal</h2>
+    <h2>Terminal</h2>
     <div class="terminal">
-      <div class="term-out" id="termOut"></div>
+      <div id="termOut" class="term-out"></div>
       <div class="term-in">
-        <input id="termIn" placeholder="type help and press Enter">
+        <input id="termIn" placeholder="type: help">
       </div>
     </div>
-
-    <div class="actions">
-      <button onclick="addLog('Scan complete — no threats')">Run Scan</button>
-      <button onclick="addLog('Connection secured')">Secure Link</button>
-      <button onclick="clearLogs()">Clear Logs</button>
-    </div>
-
-    <div class="logs" id="logs" style="margin-top:16px;"></div>
-
-    <div class="logout" onclick="logout()">logout</div>
   </div>
-</section>
+</div>
 
-<section id="contact" class="tab-content">
-  <div class="panel">
-    <h2>Contact</h2>
-    <p>This area is restricted for internal use only. Contact functionality coming soon.</p>
+<!-- PRIVATE BROWSER -->
+<div id="privateBrowser" class="pb hidden">
+  <div class="pb-header">
+    <span>PRIVATE BROWSER — SANDBOXED</span>
+    <button onclick="closeBrowser()">✖</button>
   </div>
-</section>
-
-<footer>
-  © 2026 TBlocker — access limited
-</footer>
+  <div class="pb-toolbar">
+    <input id="pbUrl" placeholder="https://google.com">
+    <button onclick="navigate()">GO</button>
+    <span class="pb-status">NO STORAGE</span>
+  </div>
+  <iframe id="pbFrame"
+    sandbox="allow-scripts allow-forms allow-same-origin"
+    referrerpolicy="no-referrer"
+    src="https://www.google.com">
+  </iframe>
+</div>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-  // TAB NAVIGATION
-  const tabs = document.querySelectorAll(".tab-link");
-  const contents = document.querySelectorAll(".tab-content");
-
-  tabs.forEach(tab=>{
-    tab.addEventListener("click",()=>{
-      tabs.forEach(t=>t.classList.remove("active"));
-      tab.classList.add("active");
-      const target = tab.dataset.tab;
-      contents.forEach(c=>{
-        c.classList.remove("active");
-        if(c.id === target) c.classList.add("active");
-      });
-    });
-  });
-
-  // TERMINAL
-  const termOut = document.getElementById("termOut");
-  const termIn = document.getElementById("termIn");
-  const logs = document.getElementById("logs");
-
-  window.addLog = (text)=>{
-    const div = document.createElement("div");
-    div.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-    logs.appendChild(div);
-    logs.scrollTop = logs.scrollHeight;
+/* TERMINAL */
+const out=document.getElementById("termOut");
+document.getElementById("termIn").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+    const c=e.target.value.trim();
+    out.innerHTML+=`<div>> ${c}</div>`;
+    if(c==="help") out.innerHTML+=`<div>commands: help, status, clear</div>`;
+    if(c==="status") out.innerHTML+=`<div>system online</div>`;
+    if(c==="clear") out.innerHTML="";
+    e.target.value="";
+    out.scrollTop=out.scrollHeight;
   }
-
-  window.clearLogs = ()=>{
-    logs.innerHTML="";
-  }
-
-  const commands = {
-    help:"help, status, whoami, ping, clear",
-    status:"system stable | no threats",
-    whoami:()=>"Admin",
-    ping:"pong",
-    clear:()=>{termOut.innerHTML="";return"";}
-  };
-
-  termIn.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){
-      const c = termIn.value.trim();
-      termOut.innerHTML+=`<div>> ${c}</div>`;
-      const r = commands[c];
-      if(typeof r==="function"){ const out = r(); if(out) termOut.innerHTML+=`<div>${out}</div>`;}
-      else if(r) termOut.innerHTML+=`<div>${r}</div>`;
-      else termOut.innerHTML+=`<div>unknown command</div>`;
-      termIn.value="";
-      termOut.scrollTop = termOut.scrollHeight;
-    }
-  });
-
-  window.logout = ()=>{
-    alert("Logged out! Refreshing page...");
-    location.reload();
-  };
-
 });
+
+/* PRIVATE BROWSER */
+function deployBrowser(){
+  document.getElementById("pbFrame").src="https://www.google.com";
+  document.getElementById("privateBrowser").classList.remove("hidden");
+}
+function closeBrowser(){
+  document.getElementById("pbFrame").src="about:blank";
+  document.getElementById("privateBrowser").classList.add("hidden");
+}
+function navigate(){
+  let u=document.getElementById("pbUrl").value.trim();
+  if(!u.startsWith("http")) u="https://"+u;
+  document.getElementById("pbFrame").src=u;
+}
 </script>
+
 </body>
 </html>
