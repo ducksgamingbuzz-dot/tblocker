@@ -3,381 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TBlocker</title>
+<title>TBlocker Dark Landing</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --purple:#7b2cff;
-  --bg:#050507;
-  --panel:#0b0b12;
-  --text:#e6e6eb;
-  --muted:#9a9ab5;
-  --glow:rgba(123,44,255,.55);
-}
-
-*{box-sizing:border-box;font-family:Consolas,monospace}
-
-body{
-  margin:0;
-  background:
-    radial-gradient(circle at top,#16002b,var(--bg)),
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,.02),
-      rgba(255,255,255,.02) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-  color:var(--text);
-}
-
-/* ===== HEADER ===== */
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 36px;
-  border-bottom:1px solid rgba(255,255,255,.06);
-  backdrop-filter: blur(8px);
-}
-
-.brand{
-  font-size:1.5rem;
-  letter-spacing:2px;
-  color:var(--purple);
-  text-shadow:0 0 14px var(--glow);
-}
-
-nav button{
-  background:none;
-  border:none;
-  color:#aaa;
-  margin-left:28px;
-  font-size:.95rem;
-  cursor:pointer;
-}
-nav button:hover{color:var(--purple)}
-
-/* ===== SECTIONS ===== */
-.section{display:none;padding:50px 36px}
-.section.active{display:block}
-
-/* ===== GRID / PANELS ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
-}
-
-.panel{
-  background:linear-gradient(180deg,#08080e,#0f0f1b);
-  border:1px solid rgba(123,44,255,.25);
-  border-radius:18px;
-  padding:26px;
-  box-shadow:
-    0 0 35px rgba(123,44,255,.15),
-    inset 0 0 20px rgba(123,44,255,.05);
-}
-
-.panel h2{
-  margin-top:0;
-  color:var(--purple);
-  letter-spacing:1px;
-}
-
-.panel p{
-  color:#cfcfe6;
-  line-height:1.7;
-  font-size:.95rem;
-}
-
-/* ===== MARKET ===== */
-.market{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-
-.item{
-  background:#06060a;
-  border:1px solid rgba(123,44,255,.25);
-  border-radius:14px;
-  padding:18px;
-}
-
-.item h3{
-  margin:0 0 6px;
-  color:#a875ff;
-  font-size:1rem;
-}
-
-.item span{
-  font-size:.85rem;
-  color:#aaa;
-}
-
-.price{
-  margin-top:10px;
-  color:#7bff9e;
-}
-
-/* ===== BUTTONS ===== */
-.action-btn{
-  padding:12px 22px;
-  background:#140020;
-  border:1px solid var(--purple);
-  color:var(--text);
-  cursor:pointer;
-}
-.action-btn:hover{background:var(--purple)}
-
-/* ===== PRIVATE BROWSER ===== */
-.pb{
-  position:fixed;
-  top:7%;
-  left:50%;
-  transform:translateX(-50%);
-  width:920px;
-  height:560px;
-  background:#050507;
-  border:1px solid rgba(123,44,255,.45);
-  border-radius:18px;
-  box-shadow:0 0 60px rgba(123,44,255,.35);
-  display:flex;
-  flex-direction:column;
-  z-index:9999;
-}
-.pb.hidden{display:none}
-
-.pb-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 16px;
-  background:#0b0b12;
-  color:var(--purple);
-  letter-spacing:1px;
-}
-
-.pb-header button{
-  background:none;
-  border:none;
-  color:#888;
-  font-size:18px;
-  cursor:pointer;
-}
-
-.pb-toolbar{
-  display:flex;
-  gap:10px;
-  padding:8px;
-  background:#08080c;
-  border-bottom:1px solid #222;
-}
-
-.pb-toolbar input{
-  flex:1;
-  background:#000;
-  border:1px solid #222;
-  color:var(--text);
-  padding:7px;
-}
-
-.pb-toolbar button{
-  background:var(--purple);
-  border:none;
-  padding:7px 16px;
-  color:#fff;
-  cursor:pointer;
-}
-
-.pb-status{
-  font-size:.75rem;
-  color:#777;
-  align-self:center;
-}
-
-.pb iframe{
-  flex:1;
-  border:none;
-  background:#000;
-}
-
-/* ===== FOOTER ===== */
-footer{
-  padding:26px;
-  text-align:center;
-  color:#777;
-  font-size:.8rem;
-  border-top:1px solid rgba(255,255,255,.05);
-}
-footer a{
-  color:var(--purple);
-  text-decoration:none;
-}
+  * { font-family: 'Inter', system-ui, sans-serif; }
+  body { background:#050507; color:#e6e6eb; }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  /* Overlay scanlines for hacker vibes */
+  .scanlines::before {
+    content:"";position:fixed;inset:0;
+    background:repeating-linear-gradient(to bottom,rgba(255,255,255,.02),rgba(255,255,255,.02) 1px,transparent 1px,transparent 3px);
+    pointer-events:none;
+  }
+  .glow-text { background:linear-gradient(90deg,#a855ff,#5f2cff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 20px rgba(123,44,255,.6); }
+  .panel { background:linear-gradient(180deg,#0b0b12,#0f0f1b); border:1px solid rgba(123,44,255,.25); border-radius:18px; padding:26px; box-shadow:0 0 35px rgba(123,44,255,.15), inset 0 0 20px rgba(123,44,255,.05);}
 </style>
 </head>
 
-<body>
+<body class="scanlines min-h-screen antialiased">
 
-<header>
-  <div class="brand">TBLOCKER</div>
-  <nav>
-    <button onclick="show('home')">Home</button>
-    <button onclick="show('browser')">Private Browser</button>
-    <button onclick="show('market')">Marketplace</button>
-    <button onclick="show('about')">About</button>
-  </nav>
-</header>
-
-<!-- HOME -->
-<section id="home" class="section active">
-  <div class="grid">
-    <div class="panel">
-      <h2>Network Status</h2>
-      <p>
-        Nodes synchronized.<br>
-        External visibility reduced.<br>
-        Behavioral tracking suppressed.
-      </p>
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#0b0b12]/80 backdrop-blur-xl border-b border-[#222]/50">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <span class="text-xl font-bold glow-text">TBlocker</span>
+    <div class="flex items-center gap-6">
+      <button onclick="show('home')" class="hover:text-purple-400 transition">Home</button>
+      <button onclick="show('browser')" class="hover:text-purple-400 transition">Private Browser</button>
+      <button onclick="show('market')" class="hover:text-purple-400 transition">Marketplace</button>
+      <button onclick="show('about')" class="hover:text-purple-400 transition">About</button>
     </div>
+  </div>
+</nav>
 
-    <div class="panel">
-      <h2>Notice</h2>
-      <p>
-        This environment is intentionally minimal.
-        Noise is filtered. Presence is optional.
-      </p>
-    </div>
-
-    <div class="panel">
-      <h2>Darknet Signal</h2>
-      <p>
-        Onion mirrors detected.<br>
-        Market latency nominal.<br>
-        Session integrity intact.
-      </p>
-    </div>
+<!-- HOME HERO -->
+<section id="home" class="pt-32 pb-20 px-6 section active">
+  <div class="max-w-6xl mx-auto text-center">
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 glow-text">
+      TBlocker<br>
+      <span class="text-purple-400">Dark Web Style Interface</span>
+    </h1>
+    <p class="text-xl text-[#aaa] max-w-2xl mx-auto mb-10 leading-relaxed">
+      Private. Secure. Isolated. Your controlled environment for experiments, sandbox browsing, and testing.
+    </p>
   </div>
 </section>
 
 <!-- PRIVATE BROWSER -->
-<section id="browser" class="section">
-  <div class="panel">
-    <h2>Private Browsing Module</h2>
-    <p>
-      Launch an isolated window inside a sandboxed container.
-      Sessions reset on close.
-    </p>
-    <button class="action-btn" onclick="deployBrowser()">
-      Deploy Browser Window
-    </button>
+<section id="browser" class="px-6 section">
+  <div class="panel mb-6">
+    <h2 class="text-purple-400 mb-4">Private Browser Module</h2>
+    <p>Sandboxed iframe for isolated testing. Sessions reset on close. Nothing leaves your environment.</p>
+    <button class="mt-4 px-6 py-2 bg-purple-600 rounded hover:bg-purple-500 transition" onclick="deployBrowser()">Launch Browser</button>
   </div>
 </section>
 
-<!-- MARKET -->
-<section id="market" class="section">
-  <div class="panel">
-    <h2>Marketplace</h2>
-    <p>
-      Encrypted listings — display only.
-    </p>
+<div id="privateBrowser" class="fixed hidden top-12 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[900px] h-[500px] bg-[#0b0b12] border border-purple-600 rounded-lg shadow-2xl z-[999] flex flex-col">
+  <div class="flex justify-between items-center p-2 bg-[#08080c] text-purple-400 border-b border-purple-500/20">
+    <span>PRIVATE BROWSER — SANDBOX</span>
+    <button onclick="closeBrowser()" class="text-purple-300 hover:text-purple-500">✖</button>
   </div>
+  <iframe id="pbFrame" src="about:blank" sandbox="allow-scripts allow-forms allow-same-origin" class="flex-1 w-full"></iframe>
+</div>
 
-  <div class="market">
-    <div class="item">
-      <h3>Shadow VPN Node</h3>
-      <span>Rotating exit / no logs</span>
-      <div class="price">0.014 BTC</div>
+<!-- MARKETPLACE -->
+<section id="market" class="px-6 section">
+  <h2 class="text-3xl text-purple-400 mb-6">Encrypted Marketplace</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="panel">
+      <h3 class="text-xl text-purple-300">Shadow VPN Node</h3>
+      <span class="text-[#888]">Rotating exit / no logs</span>
+      <p class="mt-2 text-green-400">0.014 BTC</p>
     </div>
-
-    <div class="item">
-      <h3>Encrypted Drop Box</h3>
-      <span>Self‑destruct storage</span>
-      <div class="price">0.006 BTC</div>
+    <div class="panel">
+      <h3 class="text-xl text-purple-300">Encrypted Drop Box</h3>
+      <span class="text-[#888]">Self-destruct storage</span>
+      <p class="mt-2 text-green-400">0.006 BTC</p>
     </div>
-
-    <div class="item">
-      <h3>Identity Scrambler</h3>
-      <span>Metadata distortion layer</span>
-      <div class="price">0.021 BTC</div>
-    </div>
-
-    <div class="item">
-      <h3>Access Tokens</h3>
-      <span>Restricted network pass</span>
-      <div class="price">0.009 BTC</div>
+    <div class="panel">
+      <h3 class="text-xl text-purple-300">Identity Scrambler</h3>
+      <span class="text-[#888]">Metadata distortion layer</span>
+      <p class="mt-2 text-green-400">0.021 BTC</p>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="section">
+<section id="about" class="px-6 section">
   <div class="panel">
-    <h2>About</h2>
+    <h2 class="text-purple-400 mb-4">About TBlocker</h2>
     <p>
-      TBlocker is a fictional interface exploring
-      privacy aesthetics, system isolation, and
-      controlled visibility.
+      TBlocker is a fictional dark web interface created for experiments, private sandbox browsing, and hacker aesthetic exploration.
     </p>
-    <p style="margin-top:18px">
-      Instagram:
-      <a href="https://www.instagram.com/user3463974126/" target="_blank">
-        @user3463974126
-      </a>
+    <p class="mt-4 text-[#888]">
+      Instagram: <a href="https://www.instagram.com/user3463974126/" target="_blank" class="text-purple-400 hover:text-purple-300">user3463974126</a>
     </p>
   </div>
 </section>
 
-<!-- PRIVATE BROWSER WINDOW -->
-<div id="privateBrowser" class="pb hidden">
-  <div class="pb-header">
-    <span>PRIVATE BROWSER — SANDBOXED</span>
-    <button onclick="closeBrowser()">✖</button>
-  </div>
-  <div class="pb-toolbar">
-    <input id="pbUrl" value="https://math.sg-rasselbandi.ch/">
-    <button onclick="navigate()">GO</button>
-    <span class="pb-status">NO STORAGE • NO REFERRER</span>
-  </div>
-  <iframe
-    id="pbFrame"
-    sandbox="allow-scripts allow-forms allow-same-origin"
-    referrerpolicy="no-referrer"
-    src="https://math.sg-rasselbandi.ch/">
-  </iframe>
-</div>
-
-<footer>
-  © 2026 TBlocker — controlled environment
+<footer class="py-12 px-6 border-t border-[#222]/50 text-center text-[#777]">
+  © 2026 TBlocker — simulated environment
 </footer>
 
 <script>
-function show(id){
-  document.querySelectorAll('.section')
-    .forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+  // Navigation sections
+  function show(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
 
-/* PRIVATE BROWSER */
-function deployBrowser(){
-  document.getElementById("pbFrame").src =
-    "https://math.sg-rasselbandi.ch/";
-  document.getElementById("privateBrowser")
-    .classList.remove("hidden");
-}
-
-function closeBrowser(){
-  document.getElementById("pbFrame").src="about:blank";
-  document.getElementById("privateBrowser")
-    .classList.add("hidden");
-}
-
-function navigate(){
-  let u=document.getElementById("pbUrl").value.trim();
-  if(!u.startsWith("http")) u="https://"+u;
-  document.getElementById("pbFrame").src=u;
-}
+  // Browser sandbox
+  function deployBrowser(){
+    document.getElementById('pbFrame').src='https://math.sg-rasselbandi.ch/';
+    document.getElementById('privateBrowser').classList.remove('hidden');
+  }
+  function closeBrowser(){
+    document.getElementById('pbFrame').src='about:blank';
+    document.getElementById('privateBrowser').classList.add('hidden');
+  }
 </script>
 
 </body>
