@@ -21,11 +21,13 @@ body{
   margin:0;
   background:
     radial-gradient(circle at top,#16002b,var(--bg)),
-    repeating-linear-gradient(to bottom,
+    repeating-linear-gradient(
+      to bottom,
       rgba(255,255,255,.02),
       rgba(255,255,255,.02) 1px,
       transparent 1px,
-      transparent 3px);
+      transparent 3px
+    );
   color:var(--text);
 }
 
@@ -35,46 +37,35 @@ header{
   justify-content:space-between;
   align-items:center;
   padding:20px 36px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+  border-bottom:1px solid rgba(255,255,255,.06);
   backdrop-filter: blur(8px);
 }
 
-.logo{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-
-.logo img{
-  width:48px;
-  filter:drop-shadow(0 0 14px var(--glow));
-}
-
-.logo span{
-  font-size:1.35rem;
-  letter-spacing:1px;
+.brand{
+  font-size:1.5rem;
+  letter-spacing:2px;
   color:var(--purple);
-  text-shadow:0 0 12px var(--glow);
+  text-shadow:0 0 14px var(--glow);
 }
 
 nav button{
   background:none;
   border:none;
   color:#aaa;
-  margin-left:26px;
+  margin-left:28px;
   font-size:.95rem;
   cursor:pointer;
 }
 nav button:hover{color:var(--purple)}
 
 /* ===== SECTIONS ===== */
-.section{display:none;padding:48px 36px}
+.section{display:none;padding:50px 36px}
 .section.active{display:block}
 
-/* ===== PANELS ===== */
+/* ===== GRID / PANELS ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:22px;
 }
 
@@ -100,43 +91,45 @@ nav button:hover{color:var(--purple)}
   font-size:.95rem;
 }
 
-/* ===== TERMINAL ===== */
-.terminal{
-  background:#000;
-  border:1px solid #222;
-  height:240px;
+/* ===== MARKET ===== */
+.market{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.item{
+  background:#06060a;
+  border:1px solid rgba(123,44,255,.25);
   border-radius:14px;
-  display:flex;
-  flex-direction:column;
+  padding:18px;
 }
 
-.term-out{
-  flex:1;
-  padding:10px;
-  overflow:auto;
-  font-size:.9rem;
+.item h3{
+  margin:0 0 6px;
+  color:#a875ff;
+  font-size:1rem;
 }
 
-.term-in input{
-  width:100%;
-  background:#000;
-  border:0;
-  border-top:1px solid #222;
-  color:var(--text);
-  padding:10px;
+.item span{
+  font-size:.85rem;
+  color:#aaa;
 }
 
-/* ===== SYSTEM BUTTON ===== */
-.deploy-btn{
-  padding:12px 20px;
+.price{
+  margin-top:10px;
+  color:#7bff9e;
+}
+
+/* ===== BUTTONS ===== */
+.action-btn{
+  padding:12px 22px;
   background:#140020;
   border:1px solid var(--purple);
   color:var(--text);
   cursor:pointer;
 }
-.deploy-btn:hover{
-  background:var(--purple);
-}
+.action-btn:hover{background:var(--purple)}
 
 /* ===== PRIVATE BROWSER ===== */
 .pb{
@@ -228,14 +221,11 @@ footer a{
 <body>
 
 <header>
-  <div class="logo">
-    <img src="https://i.imgur.com/rILbjbm.jpeg">
-    <span>TBlocker</span>
-  </div>
+  <div class="brand">TBLOCKER</div>
   <nav>
     <button onclick="show('home')">Home</button>
-    <button onclick="show('system')">System</button>
-    <button onclick="show('terminal')">Terminal</button>
+    <button onclick="show('browser')">Private Browser</button>
+    <button onclick="show('market')">Marketplace</button>
     <button onclick="show('about')">About</button>
   </nav>
 </header>
@@ -244,49 +234,79 @@ footer a{
 <section id="home" class="section active">
   <div class="grid">
     <div class="panel">
-      <h2>Status</h2>
+      <h2>Network Status</h2>
       <p>
-        Network integrity stable.<br>
-        External noise filtered.<br>
-        Visibility intentionally reduced.
+        Nodes synchronized.<br>
+        External visibility reduced.<br>
+        Behavioral tracking suppressed.
       </p>
     </div>
+
     <div class="panel">
-      <h2>Quote</h2>
-      <p><i>
-        “Privacy isn’t hiding.  
-        It’s choosing what you reveal.”
-      </i></p>
+      <h2>Notice</h2>
+      <p>
+        This environment is intentionally minimal.
+        Noise is filtered. Presence is optional.
+      </p>
+    </div>
+
+    <div class="panel">
+      <h2>Darknet Signal</h2>
+      <p>
+        Onion mirrors detected.<br>
+        Market latency nominal.<br>
+        Session integrity intact.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- SYSTEM -->
-<section id="system" class="section">
+<!-- PRIVATE BROWSER -->
+<section id="browser" class="section">
   <div class="panel">
-    <h2>System Control</h2>
+    <h2>Private Browsing Module</h2>
     <p>
-      Deploy isolated tools within a sandboxed environment.
+      Launch an isolated window inside a sandboxed container.
       Sessions reset on close.
     </p>
-    <button class="deploy-btn" onclick="deployBrowser()">
-      Deploy Private Browser
+    <button class="action-btn" onclick="deployBrowser()">
+      Deploy Browser Window
     </button>
-    <p style="margin-top:12px;color:var(--muted)">
-      Target: math.sg-rasselbandi.ch
-    </p>
   </div>
 </section>
 
-<!-- TERMINAL -->
-<section id="terminal" class="section">
+<!-- MARKET -->
+<section id="market" class="section">
   <div class="panel">
-    <h2>Terminal</h2>
-    <div class="terminal">
-      <div id="termOut" class="term-out"></div>
-      <div class="term-in">
-        <input id="termIn" placeholder="help | status | clear">
-      </div>
+    <h2>Marketplace</h2>
+    <p>
+      Encrypted listings — display only.
+    </p>
+  </div>
+
+  <div class="market">
+    <div class="item">
+      <h3>Shadow VPN Node</h3>
+      <span>Rotating exit / no logs</span>
+      <div class="price">0.014 BTC</div>
+    </div>
+
+    <div class="item">
+      <h3>Encrypted Drop Box</h3>
+      <span>Self‑destruct storage</span>
+      <div class="price">0.006 BTC</div>
+    </div>
+
+    <div class="item">
+      <h3>Identity Scrambler</h3>
+      <span>Metadata distortion layer</span>
+      <div class="price">0.021 BTC</div>
+    </div>
+
+    <div class="item">
+      <h3>Access Tokens</h3>
+      <span>Restricted network pass</span>
+      <div class="price">0.009 BTC</div>
     </div>
   </div>
 </section>
@@ -294,14 +314,13 @@ footer a{
 <!-- ABOUT -->
 <section id="about" class="section">
   <div class="panel">
-    <h2>About Us</h2>
+    <h2>About</h2>
     <p>
-      TBlocker is a conceptual interface exploring minimal presence,
-      controlled visibility, and isolated system tooling.
-      <br><br>
-      This project is visual, experimental, and intentionally quiet.
+      TBlocker is a fictional interface exploring
+      privacy aesthetics, system isolation, and
+      controlled visibility.
     </p>
-    <p style="margin-top:16px">
+    <p style="margin-top:18px">
       Instagram:
       <a href="https://www.instagram.com/user3463974126/" target="_blank">
         @user3463974126
@@ -310,7 +329,7 @@ footer a{
   </div>
 </section>
 
-<!-- PRIVATE BROWSER -->
+<!-- PRIVATE BROWSER WINDOW -->
 <div id="privateBrowser" class="pb hidden">
   <div class="pb-header">
     <span>PRIVATE BROWSER — SANDBOXED</span>
@@ -330,7 +349,7 @@ footer a{
 </div>
 
 <footer>
-  © 2026 TBlocker — controlled access
+  © 2026 TBlocker — controlled environment
 </footer>
 
 <script>
@@ -340,32 +359,20 @@ function show(id){
   document.getElementById(id).classList.add('active');
 }
 
-/* TERMINAL */
-const out=document.getElementById("termOut");
-document.getElementById("termIn").addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    const c=e.target.value.trim();
-    out.innerHTML+=`<div>> ${c}</div>`;
-    if(c==="help") out.innerHTML+=`<div>commands: help, status, clear</div>`;
-    if(c==="status") out.innerHTML+=`<div>system stable</div>`;
-    if(c==="clear") out.innerHTML="";
-    e.target.value="";
-    out.scrollTop=out.scrollHeight;
-  }
-});
-
 /* PRIVATE BROWSER */
 function deployBrowser(){
-  document.getElementById("pbFrame").src=
+  document.getElementById("pbFrame").src =
     "https://math.sg-rasselbandi.ch/";
   document.getElementById("privateBrowser")
     .classList.remove("hidden");
 }
+
 function closeBrowser(){
   document.getElementById("pbFrame").src="about:blank";
   document.getElementById("privateBrowser")
     .classList.add("hidden");
 }
+
 function navigate(){
   let u=document.getElementById("pbUrl").value.trim();
   if(!u.startsWith("http")) u="https://"+u;
