@@ -11,7 +11,6 @@
   --bg:#050508;
   --panel:#0b0b12;
   --text:#e5e5f0;
-  --glow:rgba(138,60,255,.7);
 }
 *{box-sizing:border-box;font-family:Consolas,monospace}
 body{
@@ -23,69 +22,131 @@ body{
 
 /* LOGIN */
 #loginScreen{
-  height:100vh;display:flex;align-items:center;justify-content:center
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at top,#12001f,#050508);
+  z-index:999;
 }
 .login-box{
   background:var(--panel);
   border:1px solid rgba(138,60,255,.4);
-  padding:36px;width:320px;border-radius:16px;
-  box-shadow:0 0 40px rgba(138,60,255,.3)
+  padding:36px;
+  width:320px;
+  border-radius:16px;
+  box-shadow:0 0 40px rgba(138,60,255,.35);
 }
-.login-box h2{color:var(--purple);text-align:center}
+.login-box h2{
+  color:var(--purple);
+  text-align:center;
+  margin-bottom:16px;
+}
 .login-box input{
-  width:100%;padding:12px;margin:10px 0;
-  background:#050508;border:1px solid #222;color:var(--text)
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  background:#050508;
+  border:1px solid #222;
+  color:var(--text);
 }
 .login-box button{
-  width:100%;padding:12px;background:var(--purple);
-  border:0;font-weight:700;cursor:pointer
+  width:100%;
+  padding:12px;
+  background:var(--purple);
+  border:0;
+  font-weight:700;
+  cursor:pointer;
 }
-#loginError{color:#ff3c7d;height:18px;margin-top:8px;text-align:center}
+#loginError{
+  color:#ff3c7d;
+  text-align:center;
+  margin-top:8px;
+  height:18px;
+}
 
 /* APP */
-#app{padding:18px}
+#app{
+  padding:20px;
+}
 header{
-  display:flex;align-items:center;justify-content:space-between
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
-.brand{display:flex;align-items:center;gap:12px}
-.brand span{color:var(--purple);font-size:1.4rem}
+header span{
+  color:var(--purple);
+  font-size:1.4rem;
+}
 
-/* NAV */
-nav{
-  display:flex;gap:10px;margin-top:14px
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+  margin-top:24px;
 }
-nav button{
-  background:#12001f;
-  border:1px solid var(--purple);
-  color:var(--text);
-  padding:10px 16px;
-  cursor:pointer
-}
-nav button.active{background:var(--purple)}
-
-/* PANELS */
 .panel{
   background:var(--panel);
   border:1px solid rgba(138,60,255,.25);
-  border-radius:14px;
-  padding:16px;
-  margin-top:16px;
-  box-shadow:0 0 30px rgba(138,60,255,.15)
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 0 30px rgba(138,60,255,.15);
+}
+.panel h3{
+  color:var(--purple);
+  margin-top:0;
+}
+
+/* LOGS */
+.logs{
+  height:160px;
+  overflow:auto;
+  background:#050508;
+  border:1px solid #222;
+  padding:10px;
 }
 
 /* TERMINAL */
 .terminal{
-  height:260px;background:#050508;
-  border:1px solid #222;border-radius:12px;
-  padding:10px;display:flex;flex-direction:column
+  height:240px;
+  background:#050508;
+  border:1px solid #222;
+  border-radius:12px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
 }
 .term-out{flex:1;overflow:auto}
 .term-in input{
-  width:100%;padding:8px;background:#000;
-  border:1px solid #222;color:var(--text)
+  width:100%;
+  padding:8px;
+  background:#000;
+  border:1px solid #222;
+  color:var(--text);
 }
 
-.logout{color:#888;margin-top:16px;cursor:pointer}
+.actions button{
+  margin:6px 6px 0 0;
+  padding:10px 14px;
+  background:#12001f;
+  border:1px solid var(--purple);
+  color:var(--text);
+  cursor:pointer;
+}
+.actions button:hover{
+  background:var(--purple);
+}
+
+.logout{
+  margin-top:18px;
+  color:#888;
+  cursor:pointer;
+}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 
@@ -95,8 +156,8 @@ nav button.active{background:var(--purple)}
 <div id="loginScreen">
   <div class="login-box">
     <h2>TBlocker Access</h2>
-    <input id="user" placeholder="username">
-    <input id="pass" type="password" placeholder="password">
+    <input id="loginUser" placeholder="username">
+    <input id="loginPass" type="password" placeholder="password">
     <button id="loginBtn">ENTER</button>
     <div id="loginError"></div>
   </div>
@@ -106,56 +167,46 @@ nav button.active{background:var(--purple)}
 <div id="app" class="hidden">
 
 <header>
-  <div class="brand">
-    <span>TBlocker</span>
-  </div>
+  <span>TBlocker // Secure Node</span>
 </header>
 
-<nav>
-  <button class="active" data-tab="dash">Dashboard</button>
-  <button data-tab="terminal">Terminal</button>
-  <button data-tab="system">System</button>
-</nav>
+<div class="grid">
 
-<!-- DASHBOARD -->
-<div id="dash" class="panel">
-  <h3>Network Status</h3>
-  <p id="statusText"></p>
-  <ul>
-    <li>TOR Routing: ACTIVE</li>
-    <li>IP Mask: ENABLED</li>
-    <li>Traceback: BLOCKED</li>
-  </ul>
-</div>
+  <!-- LEFT -->
+  <div class="panel">
+    <h3>Status</h3>
+    <p id="statusText"></p>
 
-<!-- TERMINAL -->
-<div id="terminal" class="panel hidden">
-  <h3>Secure Terminal</h3>
-  <div class="terminal">
-    <div class="term-out" id="termOut"></div>
-    <div class="term-in">
-      <input id="termIn" placeholder="type help and press Enter">
+    <div class="actions">
+      <button onclick="addLog('Scan complete — no threats')">Run Scan</button>
+      <button onclick="addLog('Connection secured')">Secure Link</button>
+      <button onclick="clearLogs()">Clear Logs</button>
     </div>
+
+    <h3 style="margin-top:16px">System Logs</h3>
+    <div class="logs" id="logs"></div>
   </div>
+
+  <!-- RIGHT -->
+  <div class="panel">
+    <h3>Terminal</h3>
+    <div class="terminal">
+      <div class="term-out" id="termOut"></div>
+      <div class="term-in">
+        <input id="termIn" placeholder="type help and press Enter">
+      </div>
+    </div>
+
+    <div class="logout" id="logoutBtn">logout</div>
+  </div>
+
 </div>
-
-<!-- SYSTEM -->
-<div id="system" class="panel hidden">
-  <h3>System Control</h3>
-  <p>Firewall: ONLINE</p>
-  <p>Exploit Shield: ENABLED</p>
-  <p>Packets Monitored: 9,482</p>
-</div>
-
-<div class="logout" id="logout">logout</div>
-
 </div>
 
 <script>
 "use strict";
 document.addEventListener("DOMContentLoaded",()=>{
 
-/* USERS */
 const USERS={
   admin:{pass:"tblocker",level:"PURPLE"},
   guest:{pass:"guest",level:"LIMITED"}
@@ -165,24 +216,28 @@ const loginScreen=document.getElementById("loginScreen");
 const app=document.getElementById("app");
 const loginBtn=document.getElementById("loginBtn");
 const loginError=document.getElementById("loginError");
-const inputUser=document.getElementById("user");
-const inputPass=document.getElementById("pass");
+const loginUser=document.getElementById("loginUser");
+const loginPass=document.getElementById("loginPass");
 const statusText=document.getElementById("statusText");
+const logs=document.getElementById("logs");
 
-function showApp(u){
+/* SHOW APP */
+function showApp(user){
   loginScreen.classList.add("hidden");
   app.classList.remove("hidden");
   statusText.innerHTML=`
-    User: <b>${u}</b><br>
-    Access Level: <b>${USERS[u].level}</b><br>
-    Session: Encrypted
+    User: <b>${user}</b><br>
+    Access Level: <b>${USERS[user].level}</b><br>
+    Network: Cloaked<br>
+    Traceback: Disabled
   `;
+  addLog(`Login success: ${user}`);
 }
 
 /* LOGIN */
 loginBtn.onclick=()=>{
-  const u=inputUser.value.trim();
-  const p=inputPass.value.trim();
+  const u=loginUser.value.trim();
+  const p=loginPass.value.trim();
   if(USERS[u] && USERS[u].pass===p){
     localStorage.setItem("auth",u);
     showApp(u);
@@ -190,7 +245,7 @@ loginBtn.onclick=()=>{
     loginError.textContent="ACCESS DENIED";
   }
 };
-inputPass.addEventListener("keydown",e=>{
+loginPass.addEventListener("keydown",e=>{
   if(e.key==="Enter") loginBtn.click();
 });
 
@@ -198,17 +253,16 @@ inputPass.addEventListener("keydown",e=>{
 const saved=localStorage.getItem("auth");
 if(saved && USERS[saved]) showApp(saved);
 
-/* NAV */
-document.querySelectorAll("nav button").forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    ["dash","terminal","system"].forEach(id=>{
-      document.getElementById(id).classList.add("hidden");
-    });
-    document.getElementById(btn.dataset.tab).classList.remove("hidden");
-  };
-});
+/* LOGS */
+window.addLog=function(text){
+  const d=document.createElement("div");
+  d.textContent=`[${new Date().toLocaleTimeString()}] ${text}`;
+  logs.appendChild(d);
+  logs.scrollTop=logs.scrollHeight;
+};
+window.clearLogs=function(){
+  logs.innerHTML="";
+};
 
 /* TERMINAL */
 const termOut=document.getElementById("termOut");
@@ -238,7 +292,7 @@ termIn.addEventListener("keydown",e=>{
 });
 
 /* LOGOUT */
-document.getElementById("logout").onclick=()=>{
+document.getElementById("logoutBtn").onclick=()=>{
   localStorage.removeItem("auth");
   location.reload();
 };
