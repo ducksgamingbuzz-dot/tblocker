@@ -87,10 +87,42 @@ body{background:#050507;color:#e6e6eb;overflow-x:hidden}
   background:#08080c;
   border-bottom:1px solid rgba(168,85,255,.3)
 }
+
+/* ===== LOGIN OVERLAY ===== */
+#loginOverlay{
+  position:fixed;inset:0;z-index:9999;
+  background:#050507;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+}
+#loginOverlay input{
+  padding:0.5rem 1rem;
+  border-radius:0.5rem;
+  outline:none;
+  margin-bottom:1rem;
+}
+#loginOverlay button{
+  padding:0.5rem 1.5rem;
+  border-radius:0.5rem;
+  font-weight:600;
+}
+#loginError{
+  color:#ff5555;
+  margin-top:0.5rem;
+  display:none;
+}
 </style>
 </head>
 
 <body>
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="loginOverlay">
+  <h2 class="text-3xl font-bold text-purple-500 mb-6">Login</h2>
+  <input type="email" id="loginUser" placeholder="Email">
+  <input type="password" id="loginPass" placeholder="Password">
+  <button onclick="login()" class="bg-purple-600 text-white hover:bg-purple-500 transition">Unlock</button>
+  <p id="loginError">Incorrect email or password</p>
+</div>
 
 <div class="grid-bg"></div>
 <div class="glow-orb orb1"></div>
@@ -145,8 +177,43 @@ bg-[#0b0b12] border border-purple-600 rounded-xl shadow-2xl z-[999] flex flex-co
   </a>
 </footer>
 
-<script>
-/* ===== PRIVATE WINDOW ===== */
+<!-- ===== FIREBASE SDK ===== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+  apiKey: "AIzaSyAHgt0b94xk5OdarHi8Od6PhmKixNUe2XY",
+  authDomain: "tblocker-15cb6.firebaseapp.com",
+  projectId: "tblocker-15cb6",
+  storageBucket: "tblocker-15cb6.firebasestorage.app",
+  messagingSenderId: "163567758160",
+  appId: "1:163567758160:web:1833d30f8bfd332ea45a55",
+  measurementId: "G-PQBWKFFMHH"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+
+// ===== LOGIN FUNCTION =====
+window.login = async function() {
+  const email = document.getElementById("loginUser").value;
+  const password = document.getElementById("loginPass").value;
+  const error = document.getElementById("loginError");
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    document.getElementById("loginOverlay").style.display = "none"; // hide overlay
+  } catch (err) {
+    console.error(err);
+    error.style.display = "block";
+  }
+};
+
+// ===== PRIVATE WINDOW =====
 function deployBrowser(){
   document.getElementById('pbFrame').src='https://math.sg-rasselbandi.ch/';
   document.getElementById('privateBrowser').classList.remove('hidden');
